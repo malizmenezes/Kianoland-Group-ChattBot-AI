@@ -102,8 +102,8 @@ def run_discord_bot():
                     pass
             # Process normal messages
             else:
-                response = detect_intent(message.content, DIALOGFLOW_PROJECT_ID)
-                await message.reply(response)
+                result = detect_intent(message.content, DIALOGFLOW_PROJECT_ID)
+                await message.reply(result['discord'])  # Hanya kirim bagian discord
         
         # Handle mentions in other channels
         elif discord_bot.user.mentioned_in(message):
@@ -114,6 +114,11 @@ def run_discord_bot():
             )
 
     # Custom commands
+    @discord_bot.command()
+    async def proyek(ctx):
+        result = detect_intent("daftar proyek", DIALOGFLOW_PROJECT_ID)
+        await ctx.send(result['discord'])  # Hanya kirim bagian discord
+        
     @discord_bot.command()
     async def info(ctx):
         """Get property information"""
@@ -151,9 +156,9 @@ async def discord_webhook(message: DiscordMessage):
         if message.author.get("bot", False):
             return {"status": "ignored"}
         
-        response = detect_intent(message.content, DIALOGFLOW_PROJECT_ID)
+        result = detect_intent(message.content, DIALOGFLOW_PROJECT_ID)
         channel = discord_bot.get_channel(message.channel_id)
-        await channel.send(response)
+        await channel.send(result['discord'])  # Hanya kirim bagian discord
         
         return {"status": "success"}
     except Exception as e:
@@ -176,30 +181,25 @@ class ChatRequest(BaseModel):
 @app.post("/chat")
 async def chat(request: ChatRequest):
     try:
-        print("Menerima pesan (web):", request.user_input)
-        response = detect_intent(request.user_input, DIALOGFLOW_PROJECT_ID)
-        print("Response Dialogflow:", response)
-        return {"response": response}
+        result = detect_intent(request.user_input, DIALOGFLOW_PROJECT_ID)
+        return {
+            "response": {
+                "raw": result['raw'],
+                "formatted": result['web']
+            }
+        }
     except Exception as e:
-        print("Error /chat:", e)
         raise HTTPException(400, str(e))
 
-# 🤖 Endpoint untuk Telegram Webhook
 @app.post("/telegram-webhook")
 async def telegram_webhook(request: Request):
     update = await request.json()
-    print("Update Telegram:", update)
-    
     if "message" in update:
         chat_id = update["message"]["chat"]["id"]
         text = update["message"].get("text", "")
         
-        # Panggil Dialogflow
-        reply = detect_intent(text, DIALOGFLOW_PROJECT_ID)
-        print(f"Balas ke Telegram ({chat_id}):", reply)
-        
-        # Kirim jawaban kembali ke user Telegram
-        await send_telegram_message(chat_id, reply)
+        result = detect_intent(text, DIALOGFLOW_PROJECT_ID)
+        await send_telegram_message(chat_id, result['telegram'])
     
     return {"ok": True}
 
