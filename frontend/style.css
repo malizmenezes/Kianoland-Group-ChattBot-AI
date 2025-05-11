@@ -1,0 +1,197 @@
+/* styles.css */
+body {
+    background-color: #f8f9fa;
+}
+
+/* Hide scrollbar but keep scroll functionality */
+#messages {
+    overflow: auto;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none;  /* Internet Explorer 10+ */
+}
+
+#messages::-webkit-scrollbar {
+    display: none;  /* Chrome, Safari, Opera */
+}
+
+.chatbot-container {
+    width: 100%;
+    max-width: 500px;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.chatbox {
+    height: 400px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px; /* Mengurangi jarak antar pesan */
+    overflow-y: auto;
+    background-color: #343a40; /* Latar belakang gelap untuk chatbox */
+    color: white; /* Warna teks putih untuk kontras */
+    border-radius: 10px;
+    flex-grow: 1;
+}
+
+#messages {
+    display: flex;
+    flex-direction: column;
+    gap: 8px; /* Mengurangi jarak antar pesan */
+    flex-grow: 1;
+}
+
+.message {
+    position: relative;
+    max-width: 75%;
+    min-width: 150px;
+    padding: 12px;
+    border-radius: 20px;
+    margin-bottom: 8px;
+    font-size: 16px;
+    line-height: 1.4;
+    background-color: #f1f1f1;
+    word-wrap: break-word;
+    display: inline-block;
+}
+
+.user-message {
+    background-color: #ffffff;
+    color: #333;
+    align-self: flex-end;
+    border-radius: 20px 20px 0 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    position: relative;
+    max-width: 80%;
+    word-wrap: break-word;
+}
+
+.bot-message {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    position: relative;
+    max-width: 80%;
+    word-wrap: break-word;
+}
+
+/* Waktu ditempatkan di ujung kanan atau kiri setelah pesan */
+.time {
+    font-size: 12px;
+    color: #888;
+    position: absolute;
+    bottom: -18px;
+    right: 5px;  /* Waktu pada pesan user berada di kanan */
+    left: 5px;   /* Waktu pada pesan bot berada di kiri */
+    text-align: right;
+    margin-top: 5px;
+}
+
+.user-message .time {
+    right: 5px; /* Waktu pada pesan user berada di kanan */
+}
+
+.bot-message .time {
+    left: 5px;  /* Waktu pada pesan bot berada di kiri */
+}
+
+.input-group {
+    display: flex;
+    gap: 10px;
+}
+
+#user-input {
+    border-radius: 30px;
+}
+
+button {
+    border-radius: 30px;
+}
+
+.options-button {
+    border-radius: 10px;
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    margin: 5px;
+}
+
+.options-button:hover {
+    background-color: #0056b3;
+}
+
+/* Pastikan .chat-message menangani format teks */
+.chat-message {
+    white-space: pre-line;
+    line-height: 1.5;
+    text-align: left;
+}
+
+/* Style untuk bullet points */
+.chat-message ul {
+    padding-left: 20px;
+    margin: 5px 0;
+}
+
+.chat-message li {
+    list-style-type: disc;
+    margin-bottom: 5px;
+}
+
+/* Penyesuaian waktu */
+.time {
+    display: block;
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.7);
+    margin-top: 5px;
+    text-align: right;
+}
+
+.bot-message .time {
+    text-align: left;
+}
+
+/* Telegram-like styles */
+.quick-replies {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 10px;
+}
+
+.quick-reply-btn {
+    background: #E6E6E6;
+    border: none;
+    border-radius: 15px;
+    padding: 8px 12px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.quick-reply-btn:hover {
+    background: #D1D1D1;
+}
+
+.message {
+    max-width: 80%;
+    padding: 8px 12px;
+    border-radius: 7.5px;
+    margin-bottom: 10px;
+    position: relative;
+}
+
+.bot-message {
+    background: #E6E6E6;
+    color: #333; /* Warna teks gelap untuk kontras */
+    align-self: flex-start;
+    border-radius: 20px 20px 20px 0;
+}
+
+.user-message {
+    background: #007bff;
+    color: white;
+    align-self: flex-end;
+    border-top-right-radius: 0;
+}

@@ -1,0 +1,31 @@
+# Environment files
+.env
+backend/service-account.json
+
+# Python cache
+*/__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environment
+backend/env/
+
+# IDE specific files
+.vscode/
+.idea/
+
+# Logs and databases
+*.log
+*.sqlite
+
+# Build and distribution
+dist/
+build/
+*.egg-info/
+
+# System files
+.DS_Store
+Thumbs.db
+
+# Frontend files
+frontend/node_modules/
