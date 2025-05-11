@@ -139,6 +139,17 @@ button {
     margin-bottom: 5px;
 }
 
+.chat-message strong {
+    font-weight: bold;
+    color: #2c3e50;
+}
+
+/* Untuk Telegram-like preview */
+.chat-message b {
+    font-weight: bold;
+    color: inherit;
+}
+
 /* Penyesuaian waktu */
 .time {
     display: block;

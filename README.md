@@ -58,6 +58,7 @@ Fill in your `.env` file:
 ```env
 DISCORD_TOKEN=your_discord_token_here
 TELEGRAM_TOKEN=your_telegram_token_here
+TELEGRAM_WEBHOOK_URL=your_url/telegram-webhook
 DIALOGFLOW_PROJECT_ID=your_project_id
 DEDICATED_CHANNEL_ID=your_channel_id
 GOOGLE_APPLICATION_CREDENTIALS=service-account.json

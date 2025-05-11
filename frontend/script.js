@@ -43,38 +43,26 @@ function scrollToBottom() {
     messageContainer.scrollTop = messageContainer.scrollHeight;
 }
 
-// Add this function to handle rich responses
+// Fungsi untuk memproses respons kaya (rich response)
 function handleRichResponse(response) {
-    if (response.telegram) {
-        // Handle Telegram-specific response format
-        addBotMessage(response.text);
-        
-        if (response.options) {
-            // Add quick reply buttons
-            const optionsContainer = document.createElement('div');
-            optionsContainer.className = 'quick-replies';
-            
-            response.options.forEach(option => {
-                const button = document.createElement('button');
-                button.className = 'quick-reply-btn';
-                button.textContent = option;
-                button.onclick = () => {
-                    userInput.value = option;
-                    sendMessage();
-                };
-                optionsContainer.appendChild(button);
-            });
-            
-            messageContainer.appendChild(optionsContainer);
-            scrollToBottom();
-        }
-    } else {
-        // Regular text response
-        addBotMessage(response);
+    // Jika response adalah string biasa
+    if (typeof response === 'string') {
+        const formattedMessage = formatBotMessage(response);
+        addBotMessage(formattedMessage);
+        return;
+    }
+    
+    // Jika response adalah object (dari Dialogflow yang sudah dimodifikasi)
+    if (response.formatted) {
+        addBotMessage(response.formatted);
+    } else if (response.raw) {
+        // Fallback ke raw response jika formatted tidak ada
+        const formattedMessage = formatBotMessage(response.raw);
+        addBotMessage(formattedMessage);
     }
 }
 
-// Modify your sendMessage function
+// Fungsi utama untuk menangani respons dari server
 async function sendMessage() {
     const message = userInput.value.trim();
     if (message) {
@@ -97,7 +85,8 @@ async function sendMessage() {
             }
             
             const data = await response.json();
-            handleRichResponse(data.response);
+            handleRichResponse(data.response); // Panggil fungsi handler di sini
+            
         } catch (error) {
             console.error('Error:', error);
             addBotMessage("Maaf, terjadi kesalahan saat memproses permintaan Anda.");
@@ -111,13 +100,12 @@ userInput.addEventListener('keypress', (e) => {
     if (e.key === 'Enter') sendMessage();
 });
 
-// Fungsi untuk memformat pesan bot (handle newlines dan bullet points)
+// Fungsi untuk memformat pesan bot
 function formatBotMessage(message) {
-    // Ganti newline dengan <br> dan bullet points dengan HTML
+    // Biarkan HTML tags tetap utuh
     return message
         .replace(/\n/g, '<br>')
-        .replace(/•/g, '•')
-        .replace(/- /g, '• ');
+        .replace(/•/g, '•');
 }
 
 // Update fungsi addBotMessage
@@ -125,7 +113,7 @@ function addBotMessage(message) {
     const botMessage = document.createElement('div');
     botMessage.classList.add('message', 'bot-message');
     botMessage.innerHTML = `
-        <div class="chat-message">${formatBotMessage(message)}</div>
+        <div class="chat-message">${message}</div>
         <span class="time">${getCurrentTime()}</span>
     `;
     messageContainer.appendChild(botMessage);
