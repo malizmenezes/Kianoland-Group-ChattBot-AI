@@ -13,6 +13,22 @@ import os
 # Load environment variables
 load_dotenv()
 
+# Validasi token penting
+if not os.getenv("DISCORD_TOKEN"):
+    raise ValueError("DISCORD_TOKEN tidak ditemukan di .env")
+
+if not os.getenv("TELEGRAM_TOKEN"):
+    raise ValueError("TELEGRAM_TOKEN tidak ditemukan di .env")
+
+if not os.getenv("DIALOGFLOW_PROJECT_ID"):
+    raise ValueError("DIALOGFLOW_PROJECT_ID tidak ditemukan di .env")
+
+if not os.getenv("GOOGLE_APPLICATION_CREDENTIALS"):
+    raise ValueError("GOOGLE_APPLICATION_CREDENTIALS tidak ditemukan di .env")
+
+if not os.getenv("TELEGRAM_WEBHOOK_URL"):
+    raise ValueError("TELEGRAM_WEBHOOK_URL tidak ditemukan di .env")
+
 # 🚀 Initialize FastAPI
 app = FastAPI()
 
@@ -86,7 +102,7 @@ def run_discord_bot():
                     pass
             # Process normal messages
             else:
-                response = detect_intent(message.content, "kianopropertybot-qebr")
+                response = detect_intent(message.content, DIALOGFLOW_PROJECT_ID)
                 await message.reply(response)
         
         # Handle mentions in other channels
@@ -101,7 +117,7 @@ def run_discord_bot():
     @discord_bot.command()
     async def info(ctx):
         """Get property information"""
-        response = detect_intent("info properti", "kianopropertybot-qebr")
+        response = detect_intent("info properti", DIALOGFLOW_PROJECT_ID)
         await ctx.send(response)
 
     @discord_bot.command()
@@ -112,7 +128,7 @@ def run_discord_bot():
             type=discord.ChannelType.private_thread,
             reason=f"Konsultasi properti oleh {ctx.author}"
         )
-        response = detect_intent(question, "kianopropertybot-qebr")
+        response = detect_intent(question, DIALOGFLOW_PROJECT_ID)
         await thread.send(
             f"🛎️ Konsultasi dimulai oleh {ctx.author.mention}!\n"
             f"**Pertanyaan:** {question}\n\n"
@@ -135,7 +151,7 @@ async def discord_webhook(message: DiscordMessage):
         if message.author.get("bot", False):
             return {"status": "ignored"}
         
-        response = detect_intent(message.content, "kianopropertybot-qebr")
+        response = detect_intent(message.content, DIALOGFLOW_PROJECT_ID)
         channel = discord_bot.get_channel(message.channel_id)
         await channel.send(response)
         
@@ -144,7 +160,6 @@ async def discord_webhook(message: DiscordMessage):
         raise HTTPException(400, str(e))
 
 # 🛠️ Konfigurasi Telegram
-TELEGRAM_TOKEN = "7913888239:AAGea5r-kW6kiiMgUpxUCI7RityeBwWXtfA"
 TELEGRAM_API_URL = f"https://api.telegram.org/bot{TELEGRAM_TOKEN}"
 
 async def send_telegram_message(chat_id: int, text: str):
@@ -162,7 +177,7 @@ class ChatRequest(BaseModel):
 async def chat(request: ChatRequest):
     try:
         print("Menerima pesan (web):", request.user_input)
-        response = detect_intent(request.user_input, "kianopropertybot-qebr")
+        response = detect_intent(request.user_input, DIALOGFLOW_PROJECT_ID)
         print("Response Dialogflow:", response)
         return {"response": response}
     except Exception as e:
@@ -180,7 +195,7 @@ async def telegram_webhook(request: Request):
         text = update["message"].get("text", "")
         
         # Panggil Dialogflow
-        reply = detect_intent(text, "kianopropertybot-qebr")
+        reply = detect_intent(text, DIALOGFLOW_PROJECT_ID)
         print(f"Balas ke Telegram ({chat_id}):", reply)
         
         # Kirim jawaban kembali ke user Telegram
@@ -192,7 +207,7 @@ async def telegram_webhook(request: Request):
 @app.on_event("startup")
 async def on_startup():
     # Ganti dengan URL publik (ngrok atau domain Anda)
-    webhook_url = "https://5401-157-15-46-172.ngrok-free.app/telegram-webhook"
+    webhook_url = os.getenv("TELEGRAM_WEBHOOK_URL")
     async with httpx.AsyncClient() as client:
         res = await client.post(
             f"{TELEGRAM_API_URL}/setWebhook",
